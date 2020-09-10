@@ -8,6 +8,16 @@ final weatherBaseUrl = FlutterConfig.get('WEATHER_BASE_URL');
 
 class WeatherModel {
 
+  Future<dynamic> getWeatherByCity(String cityName) async {
+    var url = '$weatherBaseUrl?q=$cityName&appid=$apiKey&units=metric';
+
+    NetworkHelper networkHelper = NetworkHelper(url: url);
+
+    var weatherData = await networkHelper.getData();
+
+    return weatherData;
+  }
+
   Future<dynamic> getWeatherLocation() async {
     Location location = Location();
     await location.getCurrentLocation();
@@ -16,7 +26,7 @@ class WeatherModel {
     '$weatherBaseUrl?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric'
     );
 
-    return await networkHelper.getDate();
+    return await networkHelper.getData();
   }
 
   String getWeatherIcon(int condition) {
